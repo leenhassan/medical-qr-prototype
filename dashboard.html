@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Patient Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <span class="badge">Imaging Passport</span>
+      <h1>Patient Dashboard</h1>
+      <p id="welcome"></p>
+    </div>
+
+    <div id="notification"></div>
+
+    <div class="card">
+      <h2>Overview</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="totalScans">0</div>
+          <p class="small">Total scans</p>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="totalDose">0</div>
+          <p class="small">mSv dose</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="doseReminder"></div>
+
+    <div class="card">
+      <h2>My Imaging Passport</h2>
+      <p>Scan a QR code to add a medical imaging record to your personal history.</p>
+
+      <button onclick="window.location.href='scan.html'">Scan QR Code</button>
+      <button class="secondary" onclick="window.location.href='history.html'">View My Imaging History</button>
+      <button class="secondary" onclick="window.location.href='about.html'">About This App</button>
+    </div>
+
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const patient = localStorage.getItem("loggedInPatient") || "P-001";
+    document.getElementById("welcome").innerText = "Welcome, Patient " + patient;
+
+    const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
+    const history = allHistory.filter(scan => scan.patientId === patient);
+
+    const totalDose = history.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
+
+    document.getElementById("totalScans").innerText = history.length;
+    document.getElementById("totalDose").innerText = totalDose.toFixed(2);
+
+    const notificationBox = document.getElementById("notification");
+    const lastScan = localStorage.getItem("lastScanDate");
+
+    if (!lastScan) {
+      notificationBox.innerHTML = `
+        <div class="card warning">
+          <h2>Reminder</h2>
+          <p>No imaging record has been added yet. Start by scanning your first QR code.</p>
+        </div>
+      `;
+    } else {
+      const diffDays = (new Date() - new Date(lastScan)) / (1000 * 60 * 60 * 24);
+
+      if (diffDays > 30) {
+        notificationBox.innerHTML = `
+          <div class="card warning">
+            <h2>Reminder</h2>
+            <p>It has been over a month since your last scan entry. Consider updating your imaging history.</p>
+          </div>
+        `;
+      }
+    }
+
+    const doseReminder = document.getElementById("doseReminder");
+
+    if (totalDose >= 2) {
+      doseReminder.innerHTML = `
+        <div class="card warning">
+          <h2>Radiation Awareness</h2>
+          <p>Your demo history includes higher-dose imaging. This is not medical advice, but you may want to discuss previous scans with your doctor before repeating CT or X-ray imaging.</p>
+        </div>
+      `;
+    } else {
+      doseReminder.innerHTML = `
+        <div class="card safe">
+          <h2>Radiation Awareness</h2>
+          <p>Your current demo exposure is low. MRI has 0 mSv because it does not use ionizing radiation.</p>
+        </div>
+      `;
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInPatient");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

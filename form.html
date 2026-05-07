@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Scan Info</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Add Scan Information</h1>
+
+    <div class="card">
+      <form id="scanForm">
+        <label>Patient ID</label>
+        <input id="patientId" placeholder="P-001">
+
+        <label>Scan Type</label>
+        <select id="scanType">
+          <option>MRI</option>
+          <option>CT</option>
+          <option>X-ray</option>
+          <option>Ultrasound</option>
+        </select>
+
+        <label>Body Part</label>
+        <input id="bodyPart" placeholder="Brain, Chest, Knee...">
+
+        <label>Scan Date</label>
+        <input id="scanDate" type="date">
+
+        <label>Notes</label>
+        <textarea id="notes" placeholder="Enter notes here"></textarea>
+
+        <button type="submit">Save Scan</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("scanForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const scanData = {
+        scanId: localStorage.getItem("scanId") || "MRI-001",
+        patientId: document.getElementById("patientId").value,
+        scanType: document.getElementById("scanType").value,
+        bodyPart: document.getElementById("bodyPart").value,
+        scanDate: document.getElementById("scanDate").value,
+        notes: document.getElementById("notes").value
+      };
+
+      localStorage.setItem("scanData", JSON.stringify(scanData));
+      window.location.href = "result.html";
+    });
+  </script>
+</body>
+</html>

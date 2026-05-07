@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan Saved</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Scan Saved</h1>
+
+    <div class="card" id="result"></div>
+
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("scanData"));
+
+    if (data) {
+      document.getElementById("result").innerHTML = `
+        <p><strong>Scan ID:</strong> ${data.scanId}</p>
+        <p><strong>Patient ID:</strong> ${data.patientId}</p>
+        <p><strong>Scan Type:</strong> ${data.scanType}</p>
+        <p><strong>Body Part:</strong> ${data.bodyPart}</p>
+        <p><strong>Date:</strong> ${data.scanDate}</p>
+        <p><strong>Notes:</strong> ${data.notes}</p>
+      `;
+    } else {
+      document.getElementById("result").innerHTML = "No data found.";
+    }
+  </script>
+</body>
+</html>

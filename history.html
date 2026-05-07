@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Imaging History</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <span class="badge">My Records</span>
+      <h1>Imaging History</h1>
+      <p id="patientInfo"></p>
+    </div>
+
+    <div id="summary"></div>
+    <div id="history"></div>
+
+    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
+    <button class="logout" onclick="clearHistory()">Clear My Demo History</button>
+  </div>
+
+  <script>
+    const patient = localStorage.getItem("loggedInPatient");
+    document.getElementById("patientInfo").innerText = "Logged in as: " + patient;
+
+    const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
+    const history = allHistory.filter(scan => scan.patientId === patient);
+
+    const totalDose = history.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
+
+    document.getElementById("summary").innerHTML = `
+      <div class="card">
+        <h2>Radiation Summary</h2>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-number">${history.length}</div>
+            <p class="small">Total scans</p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">${totalDose.toFixed(2)}</div>
+            <p class="small">mSv estimated</p>
+          </div>
+        </div>
+        <p class="small">
+          Dose values are simplified demo estimates for prototype purposes.
+        </p>
+      </div>
+    `;
+
+    const container = document.getElementById("history");
+
+    if (history.length === 0) {
+      container.innerHTML = `
+        <div class="card">
+          <h2>No scans yet</h2>
+          <p>Your imaging history will appear here after scanning a QR code.</p>
+        </div>
+      `;
+    } else {
+      container.innerHTML = history.map(scan => `
+        <div class="card scan-item">
+          <h2>${scan.scanType}</h2>
+          <p><strong>Scan ID:</strong> ${scan.scanId}</p>
+          <p><strong>Patient ID:</strong> ${scan.patientId}</p>
+          <p><strong>Body Part:</strong> ${scan.bodyPart}</p>
+          <p><strong>Date:</strong> ${scan.date}</p>
+          <p><strong>Radiation Level:</strong> ${scan.radiationLevel}</p>
+          <p><strong>Estimated Dose:</strong> ${scan.dose}</p>
+          <p><strong>Note:</strong> ${scan.notes}</p>
+        </div>
+      `).join("");
+    }
+
+    function clearHistory() {
+      const remainingHistory = allHistory.filter(scan => scan.patientId !== patient);
+      localStorage.setItem("scanHistory", JSON.stringify(remainingHistory));
+      location.reload();
+    }
+  </script>
+</body>
+</html>

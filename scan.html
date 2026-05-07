@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan QR Code</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <h1>Scan Imaging QR</h1>
+    <p>Scan the QR code from your medical imaging report.</p>
+
+    <div class="card">
+      <div id="reader"></div>
+    </div>
+
+    <button onclick="addDemoScan('CT-001')">Demo: P-001 CT Scan</button>
+    <button class="secondary" onclick="addDemoScan('XRAY-001')">Demo: P-001 X-ray</button>
+    <button class="secondary" onclick="addDemoScan('MRI-002')">Demo: P-002 MRI</button>
+    <button class="secondary" onclick="addDemoScan('XRAY-002')">Demo: P-002 X-ray</button>
+    <button class="secondary" onclick="window.location.href='dashboard.html'">Back</button>
+  </div>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <script>
+    const demoScanDatabase = {
+      "CT-001": {
+        scanId: "CT-001",
+        patientId: "P-001",
+        scanType: "CT Scan",
+        bodyPart: "Head",
+        date: "2026-05-06",
+        radiationLevel: "High",
+        dose: "2.0 mSv",
+        doseValue: 2.0,
+        notes: "Head CT scan"
+      },
+      "XRAY-001": {
+        scanId: "XRAY-001",
+        patientId: "P-001",
+        scanType: "X-ray",
+        bodyPart: "Chest",
+        date: "2026-05-06",
+        radiationLevel: "Low",
+        dose: "0.1 mSv",
+        doseValue: 0.1,
+        notes: "Chest X-ray"
+      },
+      "MRI-002": {
+        scanId: "MRI-002",
+        patientId: "P-002",
+        scanType: "MRI",
+        bodyPart: "Brain",
+        date: "2026-05-06",
+        radiationLevel: "No ionizing radiation",
+        dose: "0 mSv",
+        doseValue: 0,
+        notes: "MRI scan"
+      },
+      "XRAY-002": {
+        scanId: "XRAY-002",
+        patientId: "P-002",
+        scanType: "X-ray",
+        bodyPart: "Arm",
+        date: "2026-05-06",
+        radiationLevel: "Low",
+        dose: "0.05 mSv",
+        doseValue: 0.05,
+        notes: "Arm X-ray"
+      }
+    };
+
+    function saveScan(scan) {
+      const patient = localStorage.getItem("loggedInPatient");
+
+      if (scan.patientId !== patient) {
+        alert("Access denied. This scan does not belong to this patient.");
+        return;
+      }
+
+      let history = JSON.parse(localStorage.getItem("scanHistory")) || [];
+
+      const exists = history.some(item => item.scanId === scan.scanId);
+      if (!exists) {
+        history.push(scan);
+      }
+
+      localStorage.setItem("scanHistory", JSON.stringify(history));
+
+      // 👇 TRACK LAST ACTIVITY (NEW)
+      localStorage.setItem("lastScanDate", new Date().toISOString());
+
+      window.location.href = "history.html";
+    }
+
+    function addDemoScan(scanId) {
+      const scan = demoScanDatabase[scanId];
+      saveScan(scan);
+    }
+
+    function onScanSuccess(decodedText) {
+      const scan = demoScanDatabase[decodedText];
+
+      if (!scan) {
+        alert("Scan not found.");
+        return;
+      }
+
+      saveScan(scan);
+    }
+
+    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+    scanner.render(onScanSuccess);
+  </script>
+</body>
+</html>
