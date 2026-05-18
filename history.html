@@ -4,69 +4,185 @@
   <title>Imaging History</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app">
-    <div class="header">
-      <span class="badge">My Records</span>
-      <h1>Imaging History</h1>
-      <p id="patientInfo"></p>
+
+<body class="premium-body">
+
+  <div class="dashboard-page">
+
+    <div class="dashboard-top">
+      <div class="brand">
+        <div class="brand-icon">▣</div>
+        <div>
+          <div class="brand-title">Scan<span>Track</span></div>
+          <div class="brand-subtitle">IMAGING PASSPORT</div>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <div class="lang-pill">
+          <button onclick="setLang('en')">EN</button>
+          <span>|</span>
+          <button onclick="setLang('de')">DE</button>
+        </div>
+
+        <button class="dashboard-logout" onclick="window.location.href='dashboard.html'" data-i18n="back">
+          Back
+        </button>
+      </div>
     </div>
 
-    <div id="summary"></div>
-    <div id="history"></div>
+    <section class="dashboard-hero">
+      <p class="section-label" data-i18n="label">IMAGING HISTORY</p>
+      <h1 data-i18n="title">Your scan timeline.</h1>
+      <p id="patientInfo"></p>
+    </section>
 
-    <button onclick="window.location.href='dashboard.html'">Back to Dashboard</button>
-    <button class="logout" onclick="clearHistory()">Clear My Demo History</button>
-  </div>
+    <section class="dashboard-grid">
 
-  <script>
-    const patient = localStorage.getItem("loggedInPatient");
-    document.getElementById("patientInfo").innerText = "Logged in as: " + patient;
+      <div class="dashboard-panel blue-panel">
+        <h2 data-i18n="summaryTitle">Radiation Summary</h2>
 
-    const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
-    const history = allHistory.filter(scan => scan.patientId === patient);
-
-    const totalDose = history.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
-
-    document.getElementById("summary").innerHTML = `
-      <div class="card">
-        <h2>Radiation Summary</h2>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-number">${history.length}</div>
-            <p class="small">Total scans</p>
+        <div class="dashboard-stats">
+          <div class="dashboard-stat">
+            <strong id="totalScans">0</strong>
+            <span data-i18n="totalScans">Total scans</span>
           </div>
-          <div class="stat-card">
-            <div class="stat-number">${totalDose.toFixed(2)}</div>
-            <p class="small">mSv estimated</p>
+
+          <div class="dashboard-stat">
+            <strong id="totalDose">0.00</strong>
+            <span data-i18n="dose">mSv dose</span>
           </div>
         </div>
-        <p class="small">
+
+        <p class="history-note" data-i18n="summaryNote">
           Dose values are simplified demo estimates for prototype purposes.
         </p>
       </div>
-    `;
 
-    const container = document.getElementById("history");
+      <div class="dashboard-panel">
+        <h2 data-i18n="actionsTitle">Actions</h2>
+        <p data-i18n="actionsText">
+          Add another scan or return to your dashboard.
+        </p>
 
-    if (history.length === 0) {
-      container.innerHTML = `
-        <div class="card">
-          <h2>No scans yet</h2>
-          <p>Your imaging history will appear here after scanning a QR code.</p>
-        </div>
-      `;
-    } else {
-      container.innerHTML = history.map(scan => `
-        <div class="card scan-item">
-          <h2>${scan.scanType}</h2>
-          <p><strong>Scan ID:</strong> ${scan.scanId}</p>
-          <p><strong>Patient ID:</strong> ${scan.patientId}</p>
-          <p><strong>Body Part:</strong> ${scan.bodyPart}</p>
-          <p><strong>Date:</strong> ${scan.date}</p>
-          <p><strong>Radiation Level:</strong> ${scan.radiationLevel}</p>
-          <p><strong>Estimated Dose:</strong> ${scan.dose}</p>
-          <p><strong>Note:</strong> ${scan.notes}</p>
+        <button class="premium-btn" onclick="window.location.href='scan.html'" data-i18n="addScan">
+          Add New Scan →
+        </button>
+
+        <button class="premium-link" onclick="clearHistory()" data-i18n="clear">
+          Clear My Demo History
+        </button>
+      </div>
+
+    </section>
+
+    <section class="history-list" id="historyList"></section>
+
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        back: "Back",
+        label: "IMAGING HISTORY",
+        title: "Your scan timeline.",
+        patientInfo: "Logged in as: ",
+        summaryTitle: "Radiation Summary",
+        totalScans: "Total scans",
+        dose: "mSv dose",
+        summaryNote: "Dose values are simplified demo estimates for prototype purposes.",
+        actionsTitle: "Actions",
+        actionsText: "Add another scan or return to your dashboard.",
+        addScan: "Add New Scan →",
+        clear: "Clear My Demo History",
+        noScansTitle: "No scans yet",
+        noScansText: "Your imaging history will appear here after scanning a QR code.",
+        bodyPart: "Body Part",
+        date: "Date",
+        radiation: "Radiation Level",
+        estimatedDose: "Estimated Dose",
+        notes: "Notes"
+      },
+      de: {
+        back: "Zurück",
+        label: "BILDGEBUNGSHISTORIE",
+        title: "Deine Scan-Zeitleiste.",
+        patientInfo: "Eingeloggt als: ",
+        summaryTitle: "Strahlenübersicht",
+        totalScans: "Gesamte Scans",
+        dose: "mSv Dosis",
+        summaryNote: "Dosiswerte sind vereinfachte Demo-Schätzungen für den Prototyp.",
+        actionsTitle: "Aktionen",
+        actionsText: "Füge einen weiteren Scan hinzu oder kehre zum Dashboard zurück.",
+        addScan: "Neuen Scan hinzufügen →",
+        clear: "Meine Demo-Historie löschen",
+        noScansTitle: "Noch keine Scans",
+        noScansText: "Deine Bildgebungshistorie erscheint hier, nachdem du einen QR-Code gescannt hast.",
+        bodyPart: "Körperbereich",
+        date: "Datum",
+        radiation: "Strahlenlevel",
+        estimatedDose: "Geschätzte Dosis",
+        notes: "Notizen"
+      }
+    };
+
+    const patient = localStorage.getItem("loggedInPatient") || "P-001";
+    const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
+    const patientHistory = allHistory.filter(scan => scan.patientId === patient);
+    const totalDose = patientHistory.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
+
+    document.getElementById("totalScans").innerText = patientHistory.length;
+    document.getElementById("totalDose").innerText = totalDose.toFixed(2);
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+      renderHistory();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+
+      document.getElementById("patientInfo").innerText = t.patientInfo + patient;
+    }
+
+    function renderHistory() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+      const container = document.getElementById("historyList");
+
+      if (patientHistory.length === 0) {
+        container.innerHTML = `
+          <div class="dashboard-panel history-card-full">
+            <h2>${t.noScansTitle}</h2>
+            <p>${t.noScansText}</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = patientHistory.map(scan => `
+        <div class="history-record">
+          <div class="history-record-top">
+            <div>
+              <p class="section-label">${scan.scanId}</p>
+              <h2>${scan.scanType}</h2>
+            </div>
+            <span>${scan.dose}</span>
+          </div>
+
+          <div class="history-details">
+            <p><strong>${t.bodyPart}:</strong> ${scan.bodyPart}</p>
+            <p><strong>${t.date}:</strong> ${scan.date}</p>
+            <p><strong>${t.radiation}:</strong> ${scan.radiationLevel}</p>
+            <p><strong>${t.estimatedDose}:</strong> ${scan.dose}</p>
+            <p><strong>${t.notes}:</strong> ${scan.notes}</p>
+          </div>
         </div>
       `).join("");
     }
@@ -76,6 +192,10 @@
       localStorage.setItem("scanHistory", JSON.stringify(remainingHistory));
       location.reload();
     }
+
+    applyLang();
+    renderHistory();
   </script>
+
 </body>
 </html>

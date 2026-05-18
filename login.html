@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ScanTrack Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-body">
+  <div class="auth-screen">
+
+    <!-- LANGUAGE SWITCH -->
+    <div class="auth-lang">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('de')">DE</button>
+    </div>
+
+    <!-- LOGO -->
+    <div class="auth-logo">
+      <div class="brand-icon">▣</div>
+      <div>
+        <div class="brand-title">Scan<span>Track</span></div>
+        <div class="brand-subtitle">IMAGING PASSPORT</div>
+      </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="auth-card">
+
+      <!-- UPDATED TITLE -->
+      <h1 data-i18n="title">Log in or sign up</h1>
+
+      <p data-i18n="subtitle">
+        Access your imaging passport securely and stay in control of your health.
+      </p>
+
+      <label data-i18n="phoneLabel">Phone number</label>
+
+      <div class="phone-box">
+        <div class="country-code">🇩🇪 +49</div>
+        <input id="phone" placeholder="123 456789">
+      </div>
+
+      <div class="security-note">
+        <span>▣</span>
+        <p data-i18n="security">
+          We’ll send you a verification code to confirm your identity.
+        </p>
+      </div>
+
+      <button class="auth-main-btn" onclick="sendCode()" data-i18n="send">
+        Send verification code →
+      </button>
+
+      <p class="privacy-note" data-i18n-html="privacy">
+        Your data is encrypted and secure.<br>
+        We never share your information.
+      </p>
+
+    </div>
+
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Log in or sign up",
+        subtitle: "Access your imaging passport securely and stay in control of your health.",
+        phoneLabel: "Phone number",
+        security: "We’ll send you a verification code to confirm your identity.",
+        send: "Send verification code →",
+        privacy: "Your data is encrypted and secure.<br>We never share your information."
+      },
+      de: {
+        title: "Einloggen oder registrieren",
+        subtitle: "Greife sicher auf deinen Bildgebungspass zu und behalte deine Gesundheit im Blick.",
+        phoneLabel: "Telefonnummer",
+        security: "Wir senden dir einen Verifizierungscode zur Bestätigung deiner Identität.",
+        send: "Code senden →",
+        privacy: "Deine Daten sind verschlüsselt und sicher.<br>Wir geben deine Informationen nicht weiter."
+      }
+    };
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        el.innerHTML = t[el.dataset.i18nHtml];
+      });
+    }
+
+    function sendCode() {
+      const phone = document.getElementById("phone").value;
+
+      if (!phone) {
+        alert(localStorage.getItem("lang") === "de"
+          ? "Bitte Telefonnummer eingeben"
+          : "Please enter your phone number");
+        return;
+      }
+
+      localStorage.setItem("phone", "+49 " + phone);
+      window.location.href = "verify.html";
+    }
+
+    applyLang();
+  </script>
+
+</body>
+</html>

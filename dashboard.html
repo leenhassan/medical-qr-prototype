@@ -1,104 +1,182 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Patient Dashboard</title>
+  <title>ScanTrack Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app">
-    <div class="header">
-      <span class="badge">Imaging Passport</span>
-      <h1>Patient Dashboard</h1>
-      <p id="welcome"></p>
-    </div>
 
-    <div id="notification"></div>
+<body class="premium-body">
 
-    <div class="card">
-      <h2>Overview</h2>
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-number" id="totalScans">0</div>
-          <p class="small">Total scans</p>
+  <div class="dashboard-page">
+
+    <div class="dashboard-top">
+      <div class="brand">
+        <div class="brand-icon">▣</div>
+        <div>
+          <div class="brand-title">Scan<span>Track</span></div>
+          <div class="brand-subtitle">IMAGING PASSPORT</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number" id="totalDose">0</div>
-          <p class="small">mSv dose</p>
+      </div>
+
+      <div class="dashboard-actions">
+        <div class="lang-pill">
+          <button onclick="setLang('en')">EN</button>
+          <span>|</span>
+          <button onclick="setLang('de')">DE</button>
         </div>
+
+        <button class="dashboard-logout" onclick="logout()" data-i18n="logout">Logout</button>
       </div>
     </div>
 
-    <div id="doseReminder"></div>
+    <section class="dashboard-hero">
+      <p class="section-label" data-i18n="label">PATIENT DASHBOARD</p>
+      <h1 data-i18n="title">Your personal imaging passport.</h1>
+      <p id="welcome"></p>
+    </section>
 
-    <div class="card">
-      <h2>My Imaging Passport</h2>
-      <p>Scan a QR code to add a medical imaging record to your personal history.</p>
+    <section class="dashboard-grid">
 
-      <button onclick="window.location.href='scan.html'">Scan QR Code</button>
-      <button class="secondary" onclick="window.location.href='history.html'">View My Imaging History</button>
-      <button class="secondary" onclick="window.location.href='about.html'">About This App</button>
-    </div>
+      <div class="dashboard-panel">
+        <h2 data-i18n="overview">Overview</h2>
 
-    <button class="logout" onclick="logout()">Logout</button>
+        <div class="dashboard-stats">
+          <div class="dashboard-stat">
+            <strong id="totalScans">0</strong>
+            <span data-i18n="totalScans">Total scans</span>
+          </div>
+
+          <div class="dashboard-stat">
+            <strong id="totalDose">0.00</strong>
+            <span data-i18n="dose">mSv dose</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-panel blue-panel">
+        <h2 data-i18n="radiationTitle">Radiation Awareness</h2>
+        <p id="doseMessage"></p>
+      </div>
+
+      <div class="dashboard-panel">
+        <h2 data-i18n="reminderTitle">Reminder</h2>
+        <p data-i18n="reminderText">
+          It has been over a month since your last imaging update. Add a new scan if you recently had one.
+        </p>
+      </div>
+
+      <div class="dashboard-panel">
+        <h2 data-i18n="addTitle">Add New Scan</h2>
+        <p data-i18n="addText">
+          Scan a QR code from your imaging report to add it to your personal history.
+        </p>
+
+        <button class="premium-btn" onclick="window.location.href='scan.html'" data-i18n="scanBtn">
+          Scan QR Code →
+        </button>
+
+        <button class="premium-link" onclick="window.location.href='history.html'" data-i18n="historyBtn">
+          View Imaging History
+        </button>
+      </div>
+
+    </section>
+
   </div>
 
   <script>
+    const translations = {
+      en: {
+        logout: "Logout",
+        label: "PATIENT DASHBOARD",
+        title: "Your personal imaging passport.",
+        welcome: "Welcome, Patient ",
+        overview: "Overview",
+        totalScans: "Total scans",
+        dose: "mSv dose",
+        radiationTitle: "Radiation Awareness",
+        doseLow: "Your scan history will help show basic radiation awareness and repeated imaging patterns.",
+        doseHigh: "Your history includes higher-dose imaging. This is not medical advice, but it can help you discuss previous CT or X-ray scans with your doctor.",
+        reminderTitle: "Reminder",
+        reminderText: "It has been over a month since your last imaging update. Add a new scan if you recently had one.",
+        addTitle: "Add New Scan",
+        addText: "Scan a QR code from your imaging report to add it to your personal history.",
+        scanBtn: "Scan QR Code →",
+        historyBtn: "View Imaging History"
+      },
+      de: {
+        logout: "Abmelden",
+        label: "PATIENTEN-DASHBOARD",
+        title: "Dein persönlicher Bildgebungspass.",
+        welcome: "Willkommen, Patient ",
+        overview: "Übersicht",
+        totalScans: "Gesamte Scans",
+        dose: "mSv Dosis",
+        radiationTitle: "Strahlenbewusstsein",
+        doseLow: "Deine Scan-Historie hilft dabei, grundlegende Strahleninformationen und wiederholte Bildgebungsmuster sichtbar zu machen.",
+        doseHigh: "Deine Historie enthält Bildgebung mit höherer Dosis. Das ist keine medizinische Beratung, kann dir aber helfen, frühere CT- oder Röntgenuntersuchungen mit deinem Arzt zu besprechen.",
+        reminderTitle: "Erinnerung",
+        reminderText: "Seit deinem letzten Bildgebungseintrag ist über ein Monat vergangen. Füge einen neuen Scan hinzu, falls du kürzlich eine Untersuchung hattest.",
+        addTitle: "Neuen Scan hinzufügen",
+        addText: "Scanne einen QR-Code von deinem Bildgebungsbericht, um ihn zu deiner persönlichen Historie hinzuzufügen.",
+        scanBtn: "QR-Code scannen →",
+        historyBtn: "Bildgebungshistorie ansehen"
+      }
+    };
+
     const patient = localStorage.getItem("loggedInPatient") || "P-001";
-    document.getElementById("welcome").innerText = "Welcome, Patient " + patient;
 
     const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
-    const history = allHistory.filter(scan => scan.patientId === patient);
 
-    const totalDose = history.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
+    if (allHistory.length === 0) {
+      const demoHistory = [
+        {
+          scanId: "CT-001",
+          patientId: "P-001",
+          scanType: "CT Scan",
+          bodyPart: "Head",
+          date: "2026-05-06",
+          doseValue: 2.0,
+          notes: "Head CT scan added to imaging history."
+        }
+      ];
 
-    document.getElementById("totalScans").innerText = history.length;
-    document.getElementById("totalDose").innerText = totalDose.toFixed(2);
-
-    const notificationBox = document.getElementById("notification");
-    const lastScan = localStorage.getItem("lastScanDate");
-
-    if (!lastScan) {
-      notificationBox.innerHTML = `
-        <div class="card warning">
-          <h2>Reminder</h2>
-          <p>No imaging record has been added yet. Start by scanning your first QR code.</p>
-        </div>
-      `;
-    } else {
-      const diffDays = (new Date() - new Date(lastScan)) / (1000 * 60 * 60 * 24);
-
-      if (diffDays > 30) {
-        notificationBox.innerHTML = `
-          <div class="card warning">
-            <h2>Reminder</h2>
-            <p>It has been over a month since your last scan entry. Consider updating your imaging history.</p>
-          </div>
-        `;
-      }
+      localStorage.setItem("scanHistory", JSON.stringify(demoHistory));
     }
 
-    const doseReminder = document.getElementById("doseReminder");
+    const history = JSON.parse(localStorage.getItem("scanHistory")) || [];
+    const patientHistory = history.filter(scan => scan.patientId === patient);
+    const totalDose = patientHistory.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);
 
-    if (totalDose >= 2) {
-      doseReminder.innerHTML = `
-        <div class="card warning">
-          <h2>Radiation Awareness</h2>
-          <p>Your demo history includes higher-dose imaging. This is not medical advice, but you may want to discuss previous scans with your doctor before repeating CT or X-ray imaging.</p>
-        </div>
-      `;
-    } else {
-      doseReminder.innerHTML = `
-        <div class="card safe">
-          <h2>Radiation Awareness</h2>
-          <p>Your current demo exposure is low. MRI has 0 mSv because it does not use ionizing radiation.</p>
-        </div>
-      `;
+    document.getElementById("totalScans").innerText = patientHistory.length;
+    document.getElementById("totalDose").innerText = totalDose.toFixed(2);
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+
+      document.getElementById("welcome").innerText = t.welcome + patient;
+
+      document.getElementById("doseMessage").innerText =
+        totalDose >= 2 ? t.doseHigh : t.doseLow;
     }
 
     function logout() {
       localStorage.removeItem("loggedInPatient");
-      window.location.href = "index.html";
+      window.location.href = "login.html";
     }
+
+    applyLang();
   </script>
+
 </body>
 </html>

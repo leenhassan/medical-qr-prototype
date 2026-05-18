@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verify Code</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-body">
+  <div class="auth-screen">
+
+    <button class="back-btn" onclick="window.location.href='login.html'">←</button>
+
+    <div class="auth-lang">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('de')">DE</button>
+    </div>
+
+    <div class="auth-logo">
+      <div class="brand-icon">▣</div>
+      <div>
+        <div class="brand-title">Scan<span>Track</span></div>
+        <div class="brand-subtitle">IMAGING PASSPORT</div>
+      </div>
+    </div>
+
+    <div class="auth-card verify-card">
+      <h1 data-i18n="title">Enter verification code</h1>
+
+      <p>
+        <span data-i18n="sent">We’ve sent a 4-digit code to</span><br>
+        <strong id="phoneNumber"></strong>
+      </p>
+
+      <a onclick="window.location.href='login.html'" data-i18n="edit">Edit</a>
+
+      <div class="code-inputs">
+        <input maxlength="1" class="code-box">
+        <input maxlength="1" class="code-box">
+        <input maxlength="1" class="code-box">
+        <input maxlength="1" class="code-box">
+      </div>
+
+      <p class="timer">
+        <span data-i18n="expires">Code expires in</span>
+        <strong>02:45</strong>
+      </p>
+
+      <button class="auth-main-btn" onclick="verify()" data-i18n="verify">
+        Verify code →
+      </button>
+
+      <button class="resend-btn" data-i18n="resend">Resend code</button>
+
+      <div class="demo-code">
+        ▣ <span data-i18n="demo">For demo purposes, use code:</span>
+        <strong>1234</strong>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      en: {
+        title: "Enter verification code",
+        sent: "We’ve sent a 4-digit code to",
+        edit: "Edit",
+        expires: "Code expires in",
+        verify: "Verify code →",
+        resend: "Resend code",
+        demo: "For demo purposes, use code:"
+      },
+      de: {
+        title: "Verifizierungscode eingeben",
+        sent: "Wir haben einen 4-stelligen Code gesendet an",
+        edit: "Bearbeiten",
+        expires: "Code läuft ab in",
+        verify: "Code verifizieren →",
+        resend: "Code erneut senden",
+        demo: "Für die Demo bitte diesen Code verwenden:"
+      }
+    };
+
+    document.getElementById("phoneNumber").innerText =
+      localStorage.getItem("phone") || "+49 123 456789";
+
+    const boxes = document.querySelectorAll(".code-box");
+
+    boxes.forEach((box, index) => {
+      box.addEventListener("input", () => {
+        if (box.value && index < boxes.length - 1) {
+          boxes[index + 1].focus();
+        }
+      });
+    });
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+    }
+
+    function verify() {
+      const code = Array.from(boxes).map(box => box.value).join("");
+
+      if (code === "1234") {
+        localStorage.setItem("loggedInPatient", "P-001");
+        window.location.href = "dashboard.html";
+      } else {
+        alert(localStorage.getItem("lang") === "de" ? "Bitte verwende den Demo-Code 1234" : "Use demo code 1234");
+      }
+    }
+
+    applyLang();
+  </script>
+</body>
+</html>

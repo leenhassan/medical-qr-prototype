@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ScanTrack</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="premium-body">
+
+  <nav class="premium-nav">
+    <div class="brand">
+      <div class="brand-icon">▣</div>
+      <div>
+        <div class="brand-title">Scan<span>Track</span></div>
+        <div class="brand-subtitle">IMAGING PASSPORT</div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="#about" data-i18n="navAbout">About ScanTrack</a>
+      <a href="#how" data-i18n="navHow">How it works</a>
+    </div>
+
+    <div class="lang-pill">
+      <button onclick="setLang('en')">EN</button>
+      <span>|</span>
+      <button onclick="setLang('de')">DE</button>
+    </div>
+  </nav>
+
+  <main class="premium-hero">
+
+    <section class="hero-left">
+
+      <div class="small-pill" data-i18n="pill">YOUR IMAGING. YOUR HEALTH.</div>
+
+      <h1 data-i18n-html="heroTitle">
+        Take control of your<br>
+        medical imaging<br>
+        <span>history.</span>
+      </h1>
+
+      <p data-i18n="heroText">
+        ScanTrack helps you securely track your CT scans, X-rays, MRI and more —
+        all in one place. Avoid unnecessary repeat scans and stay informed about
+        your radiation exposure.
+      </p>
+
+      <div class="human-visual">
+        <div class="human-glow"></div>
+        <div class="human-body"></div>
+      </div>
+
+      <div class="feature-cards">
+        <div class="feature-card">
+          <div class="feature-visual scan-visual"><span></span></div>
+          <h3 data-i18n="feature1Title">Track Scans</h3>
+          <p data-i18n="feature1Text">All your imaging records in one secure place.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-visual shield-visual"><span></span></div>
+          <h3 data-i18n="feature2Title">Radiation Awareness</h3>
+          <p data-i18n="feature2Text">Understand your exposure and make informed decisions.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-visual lock-visual"><span></span></div>
+          <h3 data-i18n="feature3Title">Private & Secure</h3>
+          <p data-i18n="feature3Text">Your data is encrypted and always under your control.</p>
+        </div>
+      </div>
+
+      <div class="trust-text" data-i18n="trustText">
+        Trusted by patients who take charge of their health.
+      </div>
+
+    </section>
+
+    <section class="hero-right">
+
+      <div class="feedback-pill" data-i18n="feedback">● QUICK FEEDBACK</div>
+
+      <h1 data-i18n-html="welcomeTitle">
+        Welcome to<br>
+        <span>ScanTrack.</span>
+      </h1>
+
+      <p data-i18n="welcomeText1">
+        ScanTrack is your personal imaging passport for CT scans, X-rays, MRI and more.
+      </p>
+
+      <p data-i18n="welcomeText2">
+        Before you continue, we’d love to ask you a few quick questions to help us
+        improve the app for patients like you.
+      </p>
+
+      <div class="category-row">
+        <div class="category-card"><strong data-i18n="cat1">CT / X-ray</strong></div>
+        <div class="category-card"><strong data-i18n="cat2">MRI</strong></div>
+        <div class="category-card"><strong data-i18n="cat3">Patient App</strong></div>
+      </div>
+
+      <button class="premium-btn" onclick="window.location.href='survey.html'" data-i18n="startSurvey">
+        Start survey →
+      </button>
+
+      <button class="premium-link" onclick="window.location.href='login.html'" data-i18n="skipLogin">
+        Skip and go to login
+      </button>
+
+    </section>
+
+  </main>
+
+  <section id="about" class="open-section">
+    <p class="section-label" data-i18n="aboutLabel">ABOUT SCANTRACK</p>
+    <h2 data-i18n="aboutTitle">A patient-owned imaging passport for modern healthcare.</h2>
+
+    <p class="section-text" data-i18n="aboutP1">
+      ScanTrack is designed to help patients collect, organize, and understand their medical imaging history across different healthcare providers. Many patients receive CT scans, X-rays, MRI exams, or other imaging procedures at different clinics or hospitals, but this information is often stored separately in each system.
+    </p>
+
+    <p class="section-text" data-i18n="aboutP2">
+      This fragmentation can make it difficult for patients and doctors to see a complete overview of previous imaging. As a result, scans may sometimes be repeated because earlier records are not easily available at the point of care.
+    </p>
+
+    <p class="section-text" data-i18n="aboutP3">
+      ScanTrack gives patients a structured “Imaging Passport” where they can scan QR codes, add imaging records, view scan details, and understand basic radiation-related information. The goal is not to replace doctors, but to improve transparency, support better communication, and help patients become more aware of their own medical imaging history.
+    </p>
+  </section>
+
+  <section id="how" class="open-section">
+    <p class="section-label" data-i18n="howLabel">HOW IT WORKS</p>
+    <h2 data-i18n="howTitle">From QR scan to personal imaging history.</h2>
+
+    <p class="section-text" data-i18n="howP1">
+      The ScanTrack experience begins with a simple and secure login process using a phone number and verification code. This ensures that each patient has access to their own private imaging history.
+    </p>
+
+    <p class="section-text" data-i18n="howP2">
+      Once logged in, patients can scan a QR code attached to their imaging report. This QR code acts as a quick and easy way to input scan data into the app without manually typing information.
+    </p>
+
+    <p class="section-text" data-i18n="howP3">
+      After scanning, the app stores the imaging record in the patient’s personal history. Over time, this builds a complete timeline of medical imaging procedures, allowing patients to review past scans, track frequency, and receive simple insights such as reminders or basic radiation awareness.
+    </p>
+
+    <p class="section-text" data-i18n="howP4">
+      This process helps reduce unnecessary repeat imaging, improves communication with healthcare providers, and supports more informed decision-making without interfering with clinical judgment.
+    </p>
+  </section>
+
+  <script>
+    const translations = {
+      en: {
+        navAbout: "About ScanTrack",
+        navHow: "How it works",
+        pill: "YOUR IMAGING. YOUR HEALTH.",
+        heroTitle: "Take control of your<br>medical imaging<br><span>history.</span>",
+        heroText: "ScanTrack helps you securely track your CT scans, X-rays, MRI and more — all in one place. Avoid unnecessary repeat scans and stay informed about your radiation exposure.",
+        feature1Title: "Track Scans",
+        feature1Text: "All your imaging records in one secure place.",
+        feature2Title: "Radiation Awareness",
+        feature2Text: "Understand your exposure and make informed decisions.",
+        feature3Title: "Private & Secure",
+        feature3Text: "Your data is encrypted and always under your control.",
+        trustText: "Trusted by patients who take charge of their health.",
+        feedback: "● QUICK FEEDBACK",
+        welcomeTitle: "Welcome to<br><span>ScanTrack.</span>",
+        welcomeText1: "ScanTrack is your personal imaging passport for CT scans, X-rays, MRI and more.",
+        welcomeText2: "Before you continue, we’d love to ask you a few quick questions to help us improve the app for patients like you.",
+        cat1: "CT / X-ray",
+        cat2: "MRI",
+        cat3: "Patient App",
+        startSurvey: "Start survey →",
+        skipLogin: "Skip and go to login",
+        aboutLabel: "ABOUT SCANTRACK",
+        aboutTitle: "A patient-owned imaging passport for modern healthcare.",
+        aboutP1: "ScanTrack is designed to help patients collect, organize, and understand their medical imaging history across different healthcare providers. Many patients receive CT scans, X-rays, MRI exams, or other imaging procedures at different clinics or hospitals, but this information is often stored separately in each system.",
+        aboutP2: "This fragmentation can make it difficult for patients and doctors to see a complete overview of previous imaging. As a result, scans may sometimes be repeated because earlier records are not easily available at the point of care.",
+        aboutP3: "ScanTrack gives patients a structured “Imaging Passport” where they can scan QR codes, add imaging records, view scan details, and understand basic radiation-related information. The goal is not to replace doctors, but to improve transparency, support better communication, and help patients become more aware of their own medical imaging history.",
+        howLabel: "HOW IT WORKS",
+        howTitle: "From QR scan to personal imaging history.",
+        howP1: "The ScanTrack experience begins with a simple and secure login process using a phone number and verification code. This ensures that each patient has access to their own private imaging history.",
+        howP2: "Once logged in, patients can scan a QR code attached to their imaging report. This QR code acts as a quick and easy way to input scan data into the app without manually typing information.",
+        howP3: "After scanning, the app stores the imaging record in the patient’s personal history. Over time, this builds a complete timeline of medical imaging procedures, allowing patients to review past scans, track frequency, and receive simple insights such as reminders or basic radiation awareness.",
+        howP4: "This process helps reduce unnecessary repeat imaging, improves communication with healthcare providers, and supports more informed decision-making without interfering with clinical judgment."
+      },
+      de: {
+        navAbout: "Über ScanTrack",
+        navHow: "So funktioniert es",
+        pill: "DEINE BILDER. DEINE GESUNDHEIT.",
+        heroTitle: "Behalte den Überblick über deine<br>medizinische Bildgebungs-<br><span>historie.</span>",
+        heroText: "ScanTrack hilft dir, CT-, Röntgen-, MRT-Aufnahmen und weitere Untersuchungen sicher an einem Ort zu verwalten. So kannst du unnötige Wiederholungsuntersuchungen vermeiden und besser über deine Strahlenexposition informiert bleiben.",
+        feature1Title: "Scans verfolgen",
+        feature1Text: "Alle Bildgebungsdaten an einem sicheren Ort.",
+        feature2Title: "Strahlenbewusstsein",
+        feature2Text: "Exposition besser verstehen und informierte Entscheidungen unterstützen.",
+        feature3Title: "Privat & sicher",
+        feature3Text: "Deine Daten sind geschützt und bleiben unter deiner Kontrolle.",
+        trustText: "Für Patientinnen und Patienten, die ihre Gesundheit aktiv im Blick behalten.",
+        feedback: "● KURZES FEEDBACK",
+        welcomeTitle: "Willkommen bei<br><span>ScanTrack.</span>",
+        welcomeText1: "ScanTrack ist dein persönlicher Bildgebungspass für CT, Röntgen, MRT und mehr.",
+        welcomeText2: "Bevor du fortfährst, möchten wir dir ein paar kurze Fragen stellen, um die App für Patientinnen und Patienten zu verbessern.",
+        cat1: "CT / Röntgen",
+        cat2: "MRT",
+        cat3: "Patienten-App",
+        startSurvey: "Umfrage starten →",
+        skipLogin: "Überspringen und einloggen",
+        aboutLabel: "ÜBER SCANTRACK",
+        aboutTitle: "Ein patienteneigener Bildgebungspass für moderne Gesundheitsversorgung.",
+        aboutP1: "ScanTrack wurde entwickelt, um Patientinnen und Patienten dabei zu helfen, ihre medizinische Bildgebungshistorie über verschiedene Gesundheitsanbieter hinweg zu sammeln, zu organisieren und besser zu verstehen. Viele Menschen erhalten CT-, Röntgen-, MRT- oder andere bildgebende Untersuchungen in verschiedenen Kliniken oder Krankenhäusern, während diese Informationen oft getrennt in einzelnen Systemen gespeichert bleiben.",
+        aboutP2: "Diese Fragmentierung kann es Patientinnen, Patienten und Ärztinnen und Ärzten erschweren, einen vollständigen Überblick über frühere Untersuchungen zu erhalten. Dadurch können Untersuchungen wiederholt werden, weil frühere Befunde oder Bildgebungsdaten im entscheidenden Moment nicht leicht verfügbar sind.",
+        aboutP3: "ScanTrack bietet einen strukturierten „Imaging Passport“, in dem Patientinnen und Patienten QR-Codes scannen, Bildgebungsdaten hinzufügen, Untersuchungsdetails ansehen und grundlegende Informationen zur Strahlenexposition verstehen können. Die App ersetzt keine ärztliche Entscheidung, sondern verbessert Transparenz, Kommunikation und das Bewusstsein für die eigene Bildgebungshistorie.",
+        howLabel: "SO FUNKTIONIERT ES",
+        howTitle: "Vom QR-Scan zur persönlichen Bildgebungshistorie.",
+        howP1: "Die Nutzung von ScanTrack beginnt mit einem einfachen und sicheren Login über Telefonnummer und Verifizierungscode. So wird simuliert, dass jede Patientin und jeder Patient Zugriff auf die eigene private Bildgebungshistorie erhält.",
+        howP2: "Nach dem Login können Patientinnen und Patienten einen QR-Code von ihrem Bildgebungsbericht scannen. Dieser QR-Code dient als schnelle Möglichkeit, Untersuchungsdaten in die App zu übernehmen, ohne alle Informationen manuell eingeben zu müssen.",
+        howP3: "Nach dem Scan wird der Eintrag in der persönlichen Historie gespeichert. Mit der Zeit entsteht daraus eine strukturierte Übersicht medizinischer Bildgebungsverfahren, inklusive früherer Scans, Häufigkeit, geschätzter Dosiswerte, Erinnerungen und einfachen Hinweisen zur Strahlenwahrnehmung.",
+        howP4: "Dieser Ablauf kann helfen, unnötige Wiederholungsuntersuchungen zu reduzieren, die Kommunikation mit medizinischem Personal zu verbessern und informiertere Entscheidungen zu unterstützen, ohne die ärztliche Beurteilung einzuschränken."
+      }
+    };
+
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        el.innerHTML = t[el.dataset.i18nHtml];
+      });
+    }
+
+    applyLang();
+  </script>
+
+</body>
+</html>

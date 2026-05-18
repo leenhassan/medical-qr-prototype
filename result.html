@@ -1,33 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Scan Saved</title>
+  <title>Scan Details</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app">
-    <h1>Scan Saved</h1>
 
-    <div class="card" id="result"></div>
+<body class="premium-body">
 
-    <button onclick="window.location.href='index.html'">Back to Home</button>
+  <div class="dashboard-page">
+
+    <div class="dashboard-top">
+      <div class="brand">
+        <div class="brand-icon">▣</div>
+        <div>
+          <div class="brand-title">Scan<span>Track</span></div>
+          <div class="brand-subtitle">IMAGING PASSPORT</div>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <div class="lang-pill">
+          <button onclick="setLang('en')">EN</button>
+          <span>|</span>
+          <button onclick="setLang('de')">DE</button>
+        </div>
+
+        <button class="dashboard-logout" onclick="window.location.href='dashboard.html'" data-i18n="dashboard">
+          Dashboard
+        </button>
+      </div>
+    </div>
+
+    <section class="dashboard-hero">
+      <p class="section-label" data-i18n="label">SCAN DETAILS</p>
+      <h1 data-i18n="title">Scan added successfully.</h1>
+      <p data-i18n="subtitle">This is the single record added from the selected QR scan.</p>
+    </section>
+
+    <section class="dashboard-panel scan-result-panel" id="scanDetails"></section>
+
+    <button class="premium-btn result-btn" onclick="window.location.href='history.html'" data-i18n="history">
+      View Full History →
+    </button>
+
+    <button class="premium-link" onclick="window.location.href='scan.html'" data-i18n="addAnother">
+      Add another scan
+    </button>
+
   </div>
 
   <script>
-    const data = JSON.parse(localStorage.getItem("scanData"));
+    const translations = {
+      en: {
+        dashboard: "Dashboard",
+        label: "SCAN DETAILS",
+        title: "Scan added successfully.",
+        subtitle: "This is the single record added from the selected QR scan.",
+        history: "View Full History →",
+        addAnother: "Add another scan",
+        scanId: "Scan ID",
+        patientId: "Patient ID",
+        scanType: "Scan Type",
+        bodyPart: "Body Part",
+        date: "Date",
+        radiation: "Radiation Level",
+        dose: "Estimated Dose",
+        notes: "Notes",
+        noData: "No scan selected."
+      },
+      de: {
+        dashboard: "Dashboard",
+        label: "SCAN-DETAILS",
+        title: "Scan erfolgreich hinzugefügt.",
+        subtitle: "Dies ist nur der einzelne Eintrag des ausgewählten QR-Scans.",
+        history: "Gesamte Historie ansehen →",
+        addAnother: "Weiteren Scan hinzufügen",
+        scanId: "Scan-ID",
+        patientId: "Patienten-ID",
+        scanType: "Scan-Typ",
+        bodyPart: "Körperbereich",
+        date: "Datum",
+        radiation: "Strahlenlevel",
+        dose: "Geschätzte Dosis",
+        notes: "Notizen",
+        noData: "Kein Scan ausgewählt."
+      }
+    };
 
-    if (data) {
-      document.getElementById("result").innerHTML = `
-        <p><strong>Scan ID:</strong> ${data.scanId}</p>
-        <p><strong>Patient ID:</strong> ${data.patientId}</p>
-        <p><strong>Scan Type:</strong> ${data.scanType}</p>
-        <p><strong>Body Part:</strong> ${data.bodyPart}</p>
-        <p><strong>Date:</strong> ${data.scanDate}</p>
-        <p><strong>Notes:</strong> ${data.notes}</p>
-      `;
-    } else {
-      document.getElementById("result").innerHTML = "No data found.";
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+      renderScan();
     }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+    }
+
+    function renderScan() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+      const scan = JSON.parse(localStorage.getItem("selectedScan"));
+
+      const container = document.getElementById("scanDetails");
+
+      if (!scan) {
+        container.innerHTML = `<h2>${t.noData}</h2>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="history-record-top">
+          <div>
+            <p class="section-label">${scan.scanId}</p>
+            <h2>${scan.scanType}</h2>
+          </div>
+          <span>${scan.dose}</span>
+        </div>
+
+        <div class="history-details">
+          <p><strong>${t.scanId}:</strong> ${scan.scanId}</p>
+          <p><strong>${t.patientId}:</strong> ${scan.patientId}</p>
+          <p><strong>${t.scanType}:</strong> ${scan.scanType}</p>
+          <p><strong>${t.bodyPart}:</strong> ${scan.bodyPart}</p>
+          <p><strong>${t.date}:</strong> ${scan.date}</p>
+          <p><strong>${t.radiation}:</strong> ${scan.radiationLevel}</p>
+          <p><strong>${t.dose}:</strong> ${scan.dose}</p>
+          <p><strong>${t.notes}:</strong> ${scan.notes}</p>
+        </div>
+      `;
+    }
+
+    applyLang();
+    renderScan();
   </script>
+
 </body>
 </html>

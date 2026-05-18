@@ -4,25 +4,124 @@
   <title>Scan QR Code</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app">
-    <h1>Scan Imaging QR</h1>
-    <p>Scan the QR code from your medical imaging report.</p>
 
-    <div class="card">
-      <div id="reader"></div>
+<body class="premium-body">
+
+  <div class="dashboard-page">
+
+    <div class="dashboard-top">
+      <div class="brand">
+        <div class="brand-icon">▣</div>
+        <div>
+          <div class="brand-title">Scan<span>Track</span></div>
+          <div class="brand-subtitle">IMAGING PASSPORT</div>
+        </div>
+      </div>
+
+      <div class="dashboard-actions">
+        <div class="lang-pill">
+          <button onclick="setLang('en')">EN</button>
+          <span>|</span>
+          <button onclick="setLang('de')">DE</button>
+        </div>
+
+        <button class="dashboard-logout" onclick="window.location.href='dashboard.html'" data-i18n="back">
+          Back
+        </button>
+      </div>
     </div>
 
-    <button onclick="addDemoScan('CT-001')">Demo: P-001 CT Scan</button>
-    <button class="secondary" onclick="addDemoScan('XRAY-001')">Demo: P-001 X-ray</button>
-    <button class="secondary" onclick="addDemoScan('MRI-002')">Demo: P-002 MRI</button>
-    <button class="secondary" onclick="addDemoScan('XRAY-002')">Demo: P-002 X-ray</button>
-    <button class="secondary" onclick="window.location.href='dashboard.html'">Back</button>
+    <section class="dashboard-hero">
+      <p class="section-label" data-i18n="label">SCAN QR CODE</p>
+      <h1 data-i18n="title">Add a new imaging record.</h1>
+      <p data-i18n="subtitle">
+        Scan the QR code from your imaging report or use one of the demo scans for this prototype.
+      </p>
+    </section>
+
+    <section class="dashboard-grid">
+
+      <div class="dashboard-panel">
+        <h2 data-i18n="cameraTitle">QR Scanner</h2>
+        <p data-i18n="cameraText">
+          Allow camera access to scan a real QR code. If the camera does not work locally, use the demo scan buttons.
+        </p>
+
+        <div class="scanner-box">
+          <div id="reader"></div>
+        </div>
+      </div>
+
+      <div class="dashboard-panel blue-panel">
+        <h2 data-i18n="demoTitle">Demo Scans</h2>
+        <p data-i18n="demoText">
+          Choose one demo record for Patient P-001.
+        </p>
+
+        <div class="demo-scan-card">
+          <h3 data-i18n="ctTitle">P-001 CT Scan</h3>
+          <p data-i18n="ctText">Head CT scan with a higher estimated dose.</p>
+          <button class="premium-btn" onclick="addDemoScan('CT-001')" data-i18n="ctBtn">
+            Add CT Scan →
+          </button>
+        </div>
+
+        <div class="demo-scan-card">
+          <h3 data-i18n="xrayTitle">P-001 X-ray</h3>
+          <p data-i18n="xrayText">Chest X-ray with a low estimated dose.</p>
+          <button class="premium-btn secondary-dashboard" onclick="addDemoScan('XRAY-001')" data-i18n="xrayBtn">
+            Add X-ray →
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
   </div>
 
   <script src="https://unpkg.com/html5-qrcode"></script>
 
   <script>
+    const translations = {
+      en: {
+        back: "Back",
+        label: "SCAN QR CODE",
+        title: "Add a new imaging record.",
+        subtitle: "Scan the QR code from your imaging report or use one of the demo scans for this prototype.",
+        cameraTitle: "QR Scanner",
+        cameraText: "Allow camera access to scan a real QR code. If the camera does not work locally, use the demo scan buttons.",
+        demoTitle: "Demo Scans",
+        demoText: "Choose one demo record for Patient P-001.",
+        ctTitle: "P-001 CT Scan",
+        ctText: "Head CT scan with a higher estimated dose.",
+        ctBtn: "Add CT Scan →",
+        xrayTitle: "P-001 X-ray",
+        xrayText: "Chest X-ray with a low estimated dose.",
+        xrayBtn: "Add X-ray →",
+        accessDenied: "Access denied. This scan does not belong to this patient.",
+        notFound: "Scan not found in demo database."
+      },
+      de: {
+        back: "Zurück",
+        label: "QR-CODE SCANNEN",
+        title: "Neuen Bildgebungseintrag hinzufügen.",
+        subtitle: "Scanne den QR-Code von deinem Bildgebungsbericht oder nutze einen Demo-Scan für diesen Prototyp.",
+        cameraTitle: "QR-Scanner",
+        cameraText: "Erlaube den Kamerazugriff, um einen echten QR-Code zu scannen. Falls die Kamera lokal nicht funktioniert, nutze die Demo-Scan-Buttons.",
+        demoTitle: "Demo-Scans",
+        demoText: "Wähle einen Demo-Eintrag für Patient P-001.",
+        ctTitle: "P-001 CT-Scan",
+        ctText: "Kopf-CT mit höherer geschätzter Dosis.",
+        ctBtn: "CT-Scan hinzufügen →",
+        xrayTitle: "P-001 Röntgen",
+        xrayText: "Thorax-Röntgen mit niedriger geschätzter Dosis.",
+        xrayBtn: "Röntgen hinzufügen →",
+        accessDenied: "Zugriff verweigert. Dieser Scan gehört nicht zu diesem Patienten.",
+        notFound: "Scan wurde in der Demo-Datenbank nicht gefunden."
+      }
+    };
+
     const demoScanDatabase = {
       "CT-001": {
         scanId: "CT-001",
@@ -33,7 +132,7 @@
         radiationLevel: "High",
         dose: "2.0 mSv",
         doseValue: 2.0,
-        notes: "Head CT scan"
+        notes: "Head CT scan added to imaging history."
       },
       "XRAY-001": {
         scanId: "XRAY-001",
@@ -44,73 +143,72 @@
         radiationLevel: "Low",
         dose: "0.1 mSv",
         doseValue: 0.1,
-        notes: "Chest X-ray"
-      },
-      "MRI-002": {
-        scanId: "MRI-002",
-        patientId: "P-002",
-        scanType: "MRI",
-        bodyPart: "Brain",
-        date: "2026-05-06",
-        radiationLevel: "No ionizing radiation",
-        dose: "0 mSv",
-        doseValue: 0,
-        notes: "MRI scan"
-      },
-      "XRAY-002": {
-        scanId: "XRAY-002",
-        patientId: "P-002",
-        scanType: "X-ray",
-        bodyPart: "Arm",
-        date: "2026-05-06",
-        radiationLevel: "Low",
-        dose: "0.05 mSv",
-        doseValue: 0.05,
-        notes: "Arm X-ray"
+        notes: "Chest X-ray added to imaging history."
       }
     };
 
+    function setLang(lang) {
+      localStorage.setItem("lang", lang);
+      applyLang();
+    }
+
+    function applyLang() {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        el.textContent = t[el.dataset.i18n];
+      });
+    }
+
     function saveScan(scan) {
-      const patient = localStorage.getItem("loggedInPatient");
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
+      const patient = localStorage.getItem("loggedInPatient") || "P-001";
 
       if (scan.patientId !== patient) {
-        alert("Access denied. This scan does not belong to this patient.");
+        alert(t.accessDenied);
         return;
       }
 
       let history = JSON.parse(localStorage.getItem("scanHistory")) || [];
+      history = history.filter(item => item.patientId === "P-001");
 
       const exists = history.some(item => item.scanId === scan.scanId);
+
       if (!exists) {
         history.push(scan);
       }
 
       localStorage.setItem("scanHistory", JSON.stringify(history));
-
-      // 👇 TRACK LAST ACTIVITY (NEW)
+      localStorage.setItem("selectedScan", JSON.stringify(scan));
       localStorage.setItem("lastScanDate", new Date().toISOString());
 
-      window.location.href = "history.html";
+      window.location.href = "result.html";
     }
 
     function addDemoScan(scanId) {
-      const scan = demoScanDatabase[scanId];
-      saveScan(scan);
+      saveScan(demoScanDatabase[scanId]);
     }
 
     function onScanSuccess(decodedText) {
+      const lang = localStorage.getItem("lang") || "en";
+      const t = translations[lang];
       const scan = demoScanDatabase[decodedText];
 
       if (!scan) {
-        alert("Scan not found.");
+        alert(t.notFound);
         return;
       }
 
       saveScan(scan);
     }
 
+    applyLang();
+
     const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
     scanner.render(onScanSuccess);
   </script>
+
 </body>
 </html>
