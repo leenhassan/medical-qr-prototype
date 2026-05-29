@@ -31,7 +31,7 @@
 
     <section class="dashboard-hero">
       <p class="section-label" data-i18n="label">PATIENT DASHBOARD</p>
-      <h1 data-i18n="title">Your personal imaging passport.</h1>
+      <h1 data-i18n="title">Imaging history and repeat scan awareness.</h1>
       <p id="welcome"></p>
     </section>
 
@@ -54,8 +54,15 @@
       </div>
 
       <div class="dashboard-panel blue-panel">
-        <h2 data-i18n="radiationTitle">Radiation Awareness</h2>
+        <h2 data-i18n="radiationTitle">Repeat Imaging Awareness</h2>
         <p id="doseMessage"></p>
+      </div>
+
+      <div class="dashboard-panel warning-panel">
+        <h2 data-i18n="repeatTitle">Repeat Imaging Alert</h2>
+        <p data-i18n="repeatText">
+          ⚠ A similar CT scan may already exist in the patient's history. Please verify whether previous imaging can be reused before ordering another examination.
+        </p>
       </div>
 
       <div class="dashboard-panel">
@@ -66,9 +73,9 @@
       </div>
 
       <div class="dashboard-panel">
-        <h2 data-i18n="addTitle">Add New Scan</h2>
+        <h2 data-i18n="addTitle">Add New Imaging Metadata</h2>
         <p data-i18n="addText">
-          Scan a QR code from your imaging report to add it to your personal history.
+          Scan a QR code from an imaging report to add structured metadata to the imaging timeline.
         </p>
 
         <button class="premium-btn" onclick="window.location.href='scan.html'" data-i18n="scanBtn">
@@ -76,7 +83,7 @@
         </button>
 
         <button class="premium-link" onclick="window.location.href='history.html'" data-i18n="historyBtn">
-          View Imaging History
+          View Imaging Timeline
         </button>
       </div>
 
@@ -89,61 +96,46 @@
       en: {
         logout: "Logout",
         label: "PATIENT DASHBOARD",
-        title: "Your personal imaging passport.",
+        title: "Imaging history and repeat scan awareness.",
         welcome: "Welcome, Patient ",
         overview: "Overview",
         totalScans: "Total scans",
         dose: "mSv dose",
-        radiationTitle: "Radiation Awareness",
-        doseLow: "Your scan history will help show basic radiation awareness and repeated imaging patterns.",
-        doseHigh: "Your history includes higher-dose imaging. This is not medical advice, but it can help you discuss previous CT or X-ray scans with your doctor.",
+        radiationTitle: "Repeat Imaging Awareness",
+        doseLow: "Your imaging timeline helps show previous procedures, radiation involvement, and possible repeat imaging patterns.",
+        doseHigh: "Your history includes higher-dose imaging. This can support discussion about whether previous CT or X-ray scans can be reused before repeating an examination.",
+        repeatTitle: "Repeat Imaging Alert",
+        repeatText: "⚠ A similar CT scan may already exist in the patient's history. Please verify whether previous imaging can be reused before ordering another examination.",
         reminderTitle: "Reminder",
-        reminderText: "It has been over a month since your last imaging update. Add a new scan if you recently had one.",
-        addTitle: "Add New Scan",
-        addText: "Scan a QR code from your imaging report to add it to your personal history.",
+        reminderText: "It has been over a month since your last imaging update. Add new imaging metadata if you recently had a scan.",
+        addTitle: "Add New Imaging Metadata",
+        addText: "Scan a QR code from an imaging report to add structured metadata to the imaging timeline.",
         scanBtn: "Scan QR Code →",
-        historyBtn: "View Imaging History"
+        historyBtn: "View Imaging Timeline"
       },
       de: {
         logout: "Abmelden",
         label: "PATIENTEN-DASHBOARD",
-        title: "Dein persönlicher Bildgebungspass.",
+        title: "Bildgebungshistorie und Wiederholungsbewusstsein.",
         welcome: "Willkommen, Patient ",
         overview: "Übersicht",
         totalScans: "Gesamte Scans",
         dose: "mSv Dosis",
-        radiationTitle: "Strahlenbewusstsein",
-        doseLow: "Deine Scan-Historie hilft dabei, grundlegende Strahleninformationen und wiederholte Bildgebungsmuster sichtbar zu machen.",
-        doseHigh: "Deine Historie enthält Bildgebung mit höherer Dosis. Das ist keine medizinische Beratung, kann dir aber helfen, frühere CT- oder Röntgenuntersuchungen mit deinem Arzt zu besprechen.",
+        radiationTitle: "Bewusstsein für wiederholte Bildgebung",
+        doseLow: "Die Bildgebungszeitleiste hilft dabei, frühere Untersuchungen, Strahlenbeteiligung und mögliche Wiederholungsmuster sichtbar zu machen.",
+        doseHigh: "Die Historie enthält Bildgebung mit höherer Dosis. Das kann helfen zu prüfen, ob frühere CT- oder Röntgenuntersuchungen wiederverwendet werden können.",
+        repeatTitle: "Warnung vor wiederholter Bildgebung",
+        repeatText: "⚠ Eine ähnliche CT-Untersuchung könnte bereits in der Patientenhistorie vorhanden sein. Bitte prüfen, ob frühere Bildgebung wiederverwendet werden kann, bevor eine neue Untersuchung angeordnet wird.",
         reminderTitle: "Erinnerung",
-        reminderText: "Seit deinem letzten Bildgebungseintrag ist über ein Monat vergangen. Füge einen neuen Scan hinzu, falls du kürzlich eine Untersuchung hattest.",
-        addTitle: "Neuen Scan hinzufügen",
-        addText: "Scanne einen QR-Code von deinem Bildgebungsbericht, um ihn zu deiner persönlichen Historie hinzuzufügen.",
+        reminderText: "Seit deinem letzten Bildgebungseintrag ist über ein Monat vergangen. Füge neue Metadaten hinzu, falls du kürzlich eine Untersuchung hattest.",
+        addTitle: "Neue Bildgebungs-Metadaten hinzufügen",
+        addText: "Scanne einen QR-Code von einem Bildgebungsbericht, um strukturierte Metadaten zur Zeitleiste hinzuzufügen.",
         scanBtn: "QR-Code scannen →",
-        historyBtn: "Bildgebungshistorie ansehen"
+        historyBtn: "Bildgebungszeitleiste ansehen"
       }
     };
 
     const patient = localStorage.getItem("loggedInPatient") || "P-001";
-
-    const allHistory = JSON.parse(localStorage.getItem("scanHistory")) || [];
-
-    if (allHistory.length === 0) {
-      const demoHistory = [
-        {
-          scanId: "CT-001",
-          patientId: "P-001",
-          scanType: "CT Scan",
-          bodyPart: "Head",
-          date: "2026-05-06",
-          doseValue: 2.0,
-          notes: "Head CT scan added to imaging history."
-        }
-      ];
-
-      localStorage.setItem("scanHistory", JSON.stringify(demoHistory));
-    }
-
     const history = JSON.parse(localStorage.getItem("scanHistory")) || [];
     const patientHistory = history.filter(scan => scan.patientId === patient);
     const totalDose = patientHistory.reduce((sum, scan) => sum + (scan.doseValue || 0), 0);

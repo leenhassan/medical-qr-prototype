@@ -33,9 +33,9 @@
 
     <section class="dashboard-hero">
       <p class="section-label" data-i18n="label">SCAN QR CODE</p>
-      <h1 data-i18n="title">Add a new imaging record.</h1>
+      <h1 data-i18n="title">Add new imaging metadata.</h1>
       <p data-i18n="subtitle">
-        Scan the QR code from your imaging report or use one of the demo scans for this prototype.
+        Scan the QR code from an imaging report or use one of the demo scans for this prototype.
       </p>
     </section>
 
@@ -44,7 +44,7 @@
       <div class="dashboard-panel">
         <h2 data-i18n="cameraTitle">QR Scanner</h2>
         <p data-i18n="cameraText">
-          Allow camera access to scan a real QR code. If the camera does not work locally, use the demo scan buttons.
+          Allow camera access to scan a real QR code. If the camera does not work locally, use the demo metadata buttons.
         </p>
 
         <div class="scanner-box">
@@ -53,16 +53,16 @@
       </div>
 
       <div class="dashboard-panel blue-panel">
-        <h2 data-i18n="demoTitle">Demo Scans</h2>
+        <h2 data-i18n="demoTitle">Demo Metadata</h2>
         <p data-i18n="demoText">
-          Choose one demo record for Patient P-001.
+          Choose one demo imaging metadata record for Patient P-001.
         </p>
 
         <div class="demo-scan-card">
           <h3 data-i18n="ctTitle">P-001 CT Scan</h3>
           <p data-i18n="ctText">Head CT scan with a higher estimated dose.</p>
           <button class="premium-btn" onclick="addDemoScan('CT-001')" data-i18n="ctBtn">
-            Add CT Scan →
+            Add CT Metadata →
           </button>
         </div>
 
@@ -70,7 +70,7 @@
           <h3 data-i18n="xrayTitle">P-001 X-ray</h3>
           <p data-i18n="xrayText">Chest X-ray with a low estimated dose.</p>
           <button class="premium-btn secondary-dashboard" onclick="addDemoScan('XRAY-001')" data-i18n="xrayBtn">
-            Add X-ray →
+            Add X-ray Metadata →
           </button>
         </div>
 
@@ -87,36 +87,36 @@
       en: {
         back: "Back",
         label: "SCAN QR CODE",
-        title: "Add a new imaging record.",
-        subtitle: "Scan the QR code from your imaging report or use one of the demo scans for this prototype.",
+        title: "Add new imaging metadata.",
+        subtitle: "Scan the QR code from an imaging report or use one of the demo scans for this prototype.",
         cameraTitle: "QR Scanner",
-        cameraText: "Allow camera access to scan a real QR code. If the camera does not work locally, use the demo scan buttons.",
-        demoTitle: "Demo Scans",
-        demoText: "Choose one demo record for Patient P-001.",
+        cameraText: "Allow camera access to scan a real QR code. If the camera does not work locally, use the demo metadata buttons.",
+        demoTitle: "Demo Metadata",
+        demoText: "Choose one demo imaging metadata record for Patient P-001.",
         ctTitle: "P-001 CT Scan",
         ctText: "Head CT scan with a higher estimated dose.",
-        ctBtn: "Add CT Scan →",
+        ctBtn: "Add CT Metadata →",
         xrayTitle: "P-001 X-ray",
         xrayText: "Chest X-ray with a low estimated dose.",
-        xrayBtn: "Add X-ray →",
+        xrayBtn: "Add X-ray Metadata →",
         accessDenied: "Access denied. This scan does not belong to this patient.",
         notFound: "Scan not found in demo database."
       },
       de: {
         back: "Zurück",
         label: "QR-CODE SCANNEN",
-        title: "Neuen Bildgebungseintrag hinzufügen.",
-        subtitle: "Scanne den QR-Code von deinem Bildgebungsbericht oder nutze einen Demo-Scan für diesen Prototyp.",
+        title: "Neue Bildgebungs-Metadaten hinzufügen.",
+        subtitle: "Scanne den QR-Code von einem Bildgebungsbericht oder nutze einen Demo-Scan für diesen Prototyp.",
         cameraTitle: "QR-Scanner",
-        cameraText: "Erlaube den Kamerazugriff, um einen echten QR-Code zu scannen. Falls die Kamera lokal nicht funktioniert, nutze die Demo-Scan-Buttons.",
-        demoTitle: "Demo-Scans",
-        demoText: "Wähle einen Demo-Eintrag für Patient P-001.",
+        cameraText: "Erlaube den Kamerazugriff, um einen echten QR-Code zu scannen. Falls die Kamera lokal nicht funktioniert, nutze die Demo-Metadaten-Buttons.",
+        demoTitle: "Demo-Metadaten",
+        demoText: "Wähle einen Demo-Bildgebungsdatensatz für Patient P-001.",
         ctTitle: "P-001 CT-Scan",
         ctText: "Kopf-CT mit höherer geschätzter Dosis.",
-        ctBtn: "CT-Scan hinzufügen →",
+        ctBtn: "CT-Metadaten hinzufügen →",
         xrayTitle: "P-001 Röntgen",
         xrayText: "Thorax-Röntgen mit niedriger geschätzter Dosis.",
-        xrayBtn: "Röntgen hinzufügen →",
+        xrayBtn: "Röntgen-Metadaten hinzufügen →",
         accessDenied: "Zugriff verweigert. Dieser Scan gehört nicht zu diesem Patienten.",
         notFound: "Scan wurde in der Demo-Datenbank nicht gefunden."
       }
@@ -129,10 +129,11 @@
         scanType: "CT Scan",
         bodyPart: "Head",
         date: "2026-05-06",
+        provider: "External Radiology Clinic",
         radiationLevel: "High",
         dose: "2.0 mSv",
         doseValue: 2.0,
-        notes: "Head CT scan added to imaging history."
+        notes: "Head CT imaging metadata added to the timeline."
       },
       "XRAY-001": {
         scanId: "XRAY-001",
@@ -140,10 +141,11 @@
         scanType: "X-ray",
         bodyPart: "Chest",
         date: "2026-05-06",
+        provider: "External Radiology Clinic",
         radiationLevel: "Low",
         dose: "0.1 mSv",
         doseValue: 0.1,
-        notes: "Chest X-ray added to imaging history."
+        notes: "Chest X-ray imaging metadata added to the timeline."
       }
     };
 

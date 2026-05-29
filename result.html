@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+
 <html>
 <head>
-  <title>Scan Details</title>
+  <title>Imaging Metadata Details</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -9,81 +10,142 @@
 
   <div class="dashboard-page">
 
-    <div class="dashboard-top">
-      <div class="brand">
-        <div class="brand-icon">▣</div>
-        <div>
-          <div class="brand-title">Scan<span>Track</span></div>
-          <div class="brand-subtitle">IMAGING PASSPORT</div>
-        </div>
-      </div>
+```
+<div class="dashboard-top">
+  <div class="brand">
+    <div class="brand-icon">▣</div>
+    <div>
+      <div class="brand-title">Scan<span>Track</span></div>
+      <div class="brand-subtitle">IMAGING PASSPORT</div>
+    </div>
+  </div>
 
-      <div class="dashboard-actions">
-        <div class="lang-pill">
-          <button onclick="setLang('en')">EN</button>
-          <span>|</span>
-          <button onclick="setLang('de')">DE</button>
-        </div>
-
-        <button class="dashboard-logout" onclick="window.location.href='dashboard.html'" data-i18n="dashboard">
-          Dashboard
-        </button>
-      </div>
+  <div class="dashboard-actions">
+    <div class="lang-pill">
+      <button onclick="setLang('en')">EN</button>
+      <span>|</span>
+      <button onclick="setLang('de')">DE</button>
     </div>
 
-    <section class="dashboard-hero">
-      <p class="section-label" data-i18n="label">SCAN DETAILS</p>
-      <h1 data-i18n="title">Scan added successfully.</h1>
-      <p data-i18n="subtitle">This is the single record added from the selected QR scan.</p>
-    </section>
-
-    <section class="dashboard-panel scan-result-panel" id="scanDetails"></section>
-
-    <button class="premium-btn result-btn" onclick="window.location.href='history.html'" data-i18n="history">
-      View Full History →
+    <button class="dashboard-logout"
+            onclick="window.location.href='dashboard.html'"
+            data-i18n="dashboard">
+      Dashboard
     </button>
+  </div>
+</div>
 
-    <button class="premium-link" onclick="window.location.href='scan.html'" data-i18n="addAnother">
-      Add another scan
-    </button>
+<section class="dashboard-hero">
+  <p class="section-label" data-i18n="label">
+    IMAGING METADATA
+  </p>
+
+  <h1 data-i18n="title">
+    Imaging record added successfully.
+  </h1>
+
+  <p data-i18n="subtitle">
+    Structured imaging metadata has been added to the patient's imaging timeline.
+  </p>
+</section>
+
+<section class="dashboard-panel scan-result-panel"
+         id="scanDetails">
+</section>
+
+<button class="premium-btn result-btn"
+        onclick="window.location.href='history.html'"
+        data-i18n="history">
+  View Imaging Timeline →
+</button>
+
+<button class="premium-link"
+        onclick="window.location.href='scan.html'"
+        data-i18n="addAnother">
+  Add another record
+</button>
+```
 
   </div>
 
   <script>
+
     const translations = {
+
       en: {
         dashboard: "Dashboard",
-        label: "SCAN DETAILS",
-        title: "Scan added successfully.",
-        subtitle: "This is the single record added from the selected QR scan.",
-        history: "View Full History →",
-        addAnother: "Add another scan",
+
+        label: "IMAGING METADATA",
+
+        title: "Imaging record added successfully.",
+
+        subtitle:
+          "Structured imaging metadata has been added to the patient's imaging timeline.",
+
+        history: "View Imaging Timeline →",
+
+        addAnother: "Add another record",
+
         scanId: "Scan ID",
+
         patientId: "Patient ID",
+
         scanType: "Scan Type",
+
         bodyPart: "Body Part",
+
         date: "Date",
+
+        provider: "Provider",
+
         radiation: "Radiation Level",
+
         dose: "Estimated Dose",
+
         notes: "Notes",
-        noData: "No scan selected."
+
+        warning:
+          "⚠ Similar imaging may already exist in the patient's history. Please verify whether previous imaging can be reused before repeating the examination.",
+
+        noData: "No imaging metadata selected."
       },
+
       de: {
         dashboard: "Dashboard",
-        label: "SCAN-DETAILS",
-        title: "Scan erfolgreich hinzugefügt.",
-        subtitle: "Dies ist nur der einzelne Eintrag des ausgewählten QR-Scans.",
-        history: "Gesamte Historie ansehen →",
-        addAnother: "Weiteren Scan hinzufügen",
+
+        label: "BILDGEBUNGS-METADATEN",
+
+        title: "Bildgebungseintrag erfolgreich hinzugefügt.",
+
+        subtitle:
+          "Strukturierte Bildgebungs-Metadaten wurden zur Bildgebungszeitleiste des Patienten hinzugefügt.",
+
+        history: "Bildgebungszeitleiste ansehen →",
+
+        addAnother: "Weiteren Eintrag hinzufügen",
+
         scanId: "Scan-ID",
+
         patientId: "Patienten-ID",
+
         scanType: "Scan-Typ",
+
         bodyPart: "Körperbereich",
+
         date: "Datum",
+
+        provider: "Anbieter/Klinik",
+
         radiation: "Strahlenlevel",
+
         dose: "Geschätzte Dosis",
+
         notes: "Notizen",
-        noData: "Kein Scan ausgewählt."
+
+        warning:
+          "⚠ Ähnliche Bildgebung könnte bereits in der Historie vorhanden sein. Bitte prüfen, ob frühere Bildgebung wiederverwendet werden kann, bevor eine neue Untersuchung durchgeführt wird.",
+
+        noData: "Keine Bildgebungs-Metadaten ausgewählt."
       }
     };
 
@@ -103,11 +165,15 @@
     }
 
     function renderScan() {
+
       const lang = localStorage.getItem("lang") || "en";
       const t = translations[lang];
-      const scan = JSON.parse(localStorage.getItem("selectedScan"));
 
-      const container = document.getElementById("scanDetails");
+      const scan =
+        JSON.parse(localStorage.getItem("selectedScan"));
+
+      const container =
+        document.getElementById("scanDetails");
 
       if (!scan) {
         container.innerHTML = `<h2>${t.noData}</h2>`;
@@ -115,29 +181,58 @@
       }
 
       container.innerHTML = `
+
         <div class="history-record-top">
+
           <div>
             <p class="section-label">${scan.scanId}</p>
             <h2>${scan.scanType}</h2>
           </div>
+
           <span>${scan.dose}</span>
+
         </div>
 
         <div class="history-details">
+
           <p><strong>${t.scanId}:</strong> ${scan.scanId}</p>
+
           <p><strong>${t.patientId}:</strong> ${scan.patientId}</p>
+
           <p><strong>${t.scanType}:</strong> ${scan.scanType}</p>
+
           <p><strong>${t.bodyPart}:</strong> ${scan.bodyPart}</p>
+
           <p><strong>${t.date}:</strong> ${scan.date}</p>
-          <p><strong>${t.radiation}:</strong> ${scan.radiationLevel}</p>
-          <p><strong>${t.dose}:</strong> ${scan.dose}</p>
-          <p><strong>${t.notes}:</strong> ${scan.notes}</p>
+
+          <p><strong>${t.provider}:</strong>
+             ${scan.provider || "External Radiology Clinic"}
+          </p>
+
+          <p><strong>${t.radiation}:</strong>
+             ${scan.radiationLevel}
+          </p>
+
+          <p><strong>${t.dose}:</strong>
+             ${scan.dose}
+          </p>
+
+          <p><strong>${t.notes}:</strong>
+             ${scan.notes}
+          </p>
+
         </div>
+
+        <div class="repeat-warning">
+          ${t.warning}
+        </div>
+
       `;
     }
 
     applyLang();
     renderScan();
+
   </script>
 
 </body>

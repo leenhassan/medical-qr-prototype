@@ -1122,3 +1122,26 @@ input {
     flex-direction: column;
   }
 }
+.warning-panel {
+  background: #fff7df;
+  border-left: 6px solid #f4a261;
+}
+
+.warning-panel h2 {
+  color: #5c3d00;
+}
+
+.warning-panel p {
+  color: #5c3d00;
+  font-weight: 600;
+}
+.repeat-warning {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #fff7df;
+  border-left: 6px solid #f4a261;
+  color: #5c3d00;
+  font-weight: 600;
+  line-height: 1.6;
+}

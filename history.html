@@ -32,8 +32,8 @@
     </div>
 
     <section class="dashboard-hero">
-      <p class="section-label" data-i18n="label">IMAGING HISTORY</p>
-      <h1 data-i18n="title">Your scan timeline.</h1>
+      <p class="section-label" data-i18n="label">IMAGING TIMELINE</p>
+      <h1 data-i18n="title">Structured imaging metadata.</h1>
       <p id="patientInfo"></p>
     </section>
 
@@ -59,14 +59,21 @@
         </p>
       </div>
 
+      <div class="dashboard-panel warning-panel">
+        <h2 data-i18n="repeatTitle">Repeat Imaging Check</h2>
+        <p data-i18n="repeatText">
+          ⚠ If similar imaging exists, the system can warn users before another CT scan or X-ray is repeated.
+        </p>
+      </div>
+
       <div class="dashboard-panel">
         <h2 data-i18n="actionsTitle">Actions</h2>
         <p data-i18n="actionsText">
-          Add another scan or return to your dashboard.
+          Add another imaging record or return to your dashboard.
         </p>
 
         <button class="premium-btn" onclick="window.location.href='scan.html'" data-i18n="addScan">
-          Add New Scan →
+          Add New Metadata →
         </button>
 
         <button class="premium-link" onclick="clearHistory()" data-i18n="clear">
@@ -84,42 +91,48 @@
     const translations = {
       en: {
         back: "Back",
-        label: "IMAGING HISTORY",
-        title: "Your scan timeline.",
+        label: "IMAGING TIMELINE",
+        title: "Structured imaging metadata.",
         patientInfo: "Logged in as: ",
         summaryTitle: "Radiation Summary",
         totalScans: "Total scans",
         dose: "mSv dose",
         summaryNote: "Dose values are simplified demo estimates for prototype purposes.",
+        repeatTitle: "Repeat Imaging Check",
+        repeatText: "⚠ If similar imaging exists, the system can warn users before another CT scan or X-ray is repeated.",
         actionsTitle: "Actions",
-        actionsText: "Add another scan or return to your dashboard.",
-        addScan: "Add New Scan →",
+        actionsText: "Add another imaging record or return to your dashboard.",
+        addScan: "Add New Metadata →",
         clear: "Clear My Demo History",
-        noScansTitle: "No scans yet",
-        noScansText: "Your imaging history will appear here after scanning a QR code.",
+        noScansTitle: "No imaging metadata yet",
+        noScansText: "Your imaging timeline will appear here after scanning a QR code.",
         bodyPart: "Body Part",
         date: "Date",
+        provider: "Provider",
         radiation: "Radiation Level",
         estimatedDose: "Estimated Dose",
         notes: "Notes"
       },
       de: {
         back: "Zurück",
-        label: "BILDGEBUNGSHISTORIE",
-        title: "Deine Scan-Zeitleiste.",
+        label: "BILDGEBUNGSZEITLEISTE",
+        title: "Strukturierte Bildgebungs-Metadaten.",
         patientInfo: "Eingeloggt als: ",
         summaryTitle: "Strahlenübersicht",
         totalScans: "Gesamte Scans",
         dose: "mSv Dosis",
         summaryNote: "Dosiswerte sind vereinfachte Demo-Schätzungen für den Prototyp.",
+        repeatTitle: "Prüfung auf wiederholte Bildgebung",
+        repeatText: "⚠ Wenn ähnliche Bildgebung existiert, kann das System warnen, bevor ein CT oder Röntgen wiederholt wird.",
         actionsTitle: "Aktionen",
-        actionsText: "Füge einen weiteren Scan hinzu oder kehre zum Dashboard zurück.",
-        addScan: "Neuen Scan hinzufügen →",
+        actionsText: "Füge einen weiteren Bildgebungseintrag hinzu oder kehre zum Dashboard zurück.",
+        addScan: "Neue Metadaten hinzufügen →",
         clear: "Meine Demo-Historie löschen",
-        noScansTitle: "Noch keine Scans",
-        noScansText: "Deine Bildgebungshistorie erscheint hier, nachdem du einen QR-Code gescannt hast.",
+        noScansTitle: "Noch keine Bildgebungs-Metadaten",
+        noScansText: "Deine Bildgebungszeitleiste erscheint hier, nachdem du einen QR-Code gescannt hast.",
         bodyPart: "Körperbereich",
         date: "Datum",
+        provider: "Anbieter/Klinik",
         radiation: "Strahlenlevel",
         estimatedDose: "Geschätzte Dosis",
         notes: "Notizen"
@@ -179,6 +192,7 @@
           <div class="history-details">
             <p><strong>${t.bodyPart}:</strong> ${scan.bodyPart}</p>
             <p><strong>${t.date}:</strong> ${scan.date}</p>
+            <p><strong>${t.provider}:</strong> ${scan.provider || "External Radiology Clinic"}</p>
             <p><strong>${t.radiation}:</strong> ${scan.radiationLevel}</p>
             <p><strong>${t.estimatedDose}:</strong> ${scan.dose}</p>
             <p><strong>${t.notes}:</strong> ${scan.notes}</p>
